@@ -37,8 +37,8 @@ export const Navbar = () => {
                     <span className="relative z-10">
                         {" "}
                         <span className="text-glow text-foreground">
-                            Arthur Richard (Velop)
-                        </span> Portfolio
+                           Arthur Richard
+                        </span> Portfolio 
                     </span>
                 </a>
 

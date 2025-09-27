@@ -3,12 +3,38 @@ import { cn } from "../lib/utils";
 
 export const ContactSection = () => {
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        setTimeout(() => {
-            
-        }, 1500);
+    
+
+    const data = {
+      name: e.target.name.value,
+      email: e.target.email.value,
+      message: e.target.message.value,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/ContactSection", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
     }
+
+      /*if (!response.ok) throw new Error("Erro ao enviar mensagem");
+
+      alert("Mensagem enviada com sucesso!")
+      e.target.reset();
+     catch (err) {
+      alert("Erro: " + err.message); */
+    }
+    
+
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
@@ -92,7 +118,7 @@ export const ContactSection = () => {
           <div className="bg-card p-8 rounded-lg shadow-xs">
             <h3 className="text-2xl font-semibold mb-6">Envie uma mensagem</h3>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium">
                   Nome
