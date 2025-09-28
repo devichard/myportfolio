@@ -174,3 +174,13 @@
   padding: 0;
   text-align: center;
 }
+
+:root {
+  --scrollbar-width: 0;
+}
+
+body.overflow-hidden {
+  overflow: hidden !important; 
+
+  padding-right: var(--scrollbar-width); 
+}

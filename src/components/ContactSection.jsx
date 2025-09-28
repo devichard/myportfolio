@@ -1,7 +1,19 @@
-import { Instagram, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
+import {
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+} from "lucide-react";
 import { cn } from "../lib/utils";
+import { useState } from "react";
+import { ToastNotification } from "./ToastNotification";
 
 export const ContactSection = () => {
+  const [status, setStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -11,6 +23,9 @@ export const ContactSection = () => {
       message: e.target.message.value,
     };
 
+    setStatus(null);
+    setIsLoading(true);
+
     try {
       const response = await fetch("http://localhost:5000/ContactSection", {
         method: "POST",
@@ -18,16 +33,23 @@ export const ContactSection = () => {
         body: JSON.stringify(data),
       });
 
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       if (!response.ok) throw new Error("Erro ao enviar mensagem.");
 
-      setStatus("Mensagem enviada com sucesso! ✅");
-      e.target.reset(); //pra limpar o form
-
-      const result = await response.json();
-      console.log(result);
+      setStatus({
+        message: "Mensagem enviada com sucesso! ✅",
+        type: "success",
+      });
+      e.target.reset();
     } catch (error) {
       console.error(error);
-      setStatus("Erro ao enviar mensagem.");
+      setStatus({
+        message: "Não foi possível enviar a mensagem. Tente novamente.",
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -44,6 +66,7 @@ export const ContactSection = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 ">
+          {/* Informações de contato */}
           <div className="space-y-8">
             <h3 className="text-2xl font-semibold mb-6">
               Informações para contato
@@ -52,7 +75,7 @@ export const ContactSection = () => {
             <div className="space-y-6 justify-center">
               <div className="flex items-start space-x-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <Mail className="h-6 w-6 text-primary" />{" "}
+                  <Mail className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <h4 className="font-medium">Email</h4>
@@ -66,7 +89,7 @@ export const ContactSection = () => {
               </div>
               <div className="flex items-start space-x-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <Phone className="h-6 w-6 text-primary" />{" "}
+                  <Phone className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <h4 className="font-medium">Telefone</h4>
@@ -80,13 +103,13 @@ export const ContactSection = () => {
               </div>
               <div className="flex items-start space-x-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <MapPin className="h-6 w-6 text-primary" />{" "}
+                  <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <h4 className="font-medium">Localização</h4>
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
+                  <span className="text-muted-foreground">
                     Brasília - DF, Brasil
-                  </a>
+                  </span>
                 </div>
               </div>
             </div>
@@ -111,6 +134,8 @@ export const ContactSection = () => {
               </div>
             </div>
           </div>
+
+          {/* Formulário */}
           <div className="bg-card p-8 rounded-lg shadow-xs">
             <h3 className="text-2xl font-semibold mb-6">Envie uma mensagem</h3>
 
@@ -125,12 +150,12 @@ export const ContactSection = () => {
                   id="name"
                   name="name"
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outlind-hidden focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:ring-2 focus:ring-primary"
                   placeholder="Arthur Richard..."
                 />
               </div>
               <div>
-                <label htmlFor="name" className="block text-sm font-medium">
+                <label htmlFor="email" className="block text-sm font-medium">
                   Seu email
                 </label>
                 <input
@@ -139,35 +164,42 @@ export const ContactSection = () => {
                   id="email"
                   name="email"
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outlind-hidden focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:ring-2 focus:ring-primary"
                   placeholder="seuemail@gmail.com..."
                 />
               </div>
               <div>
-                <label htmlFor="name" className="block text-sm font-medium">
+                <label htmlFor="message" className="block text-sm font-medium">
                   Sua mensagem
                 </label>
-                <input
+                <textarea
                   id="message"
                   name="message"
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:ring-2 focus:ring-primary resize-none"
                   placeholder="Olá! Gostaria de falar com você sobre..."
                 />
               </div>
               <button
                 type="submit"
                 className={cn(
-                  "cosmic-button w-full flex items-center justify-center gap-2 hover:primary/20 cursor-pointer"
+                  "cosmic-button w-full flex items-center justify-center gap-2 hover:primary/20 cursor-pointer",
+                  isLoading && "opacity-70 cursor-not-allowed"
                 )}
+                disabled={isLoading}
               >
-                Enviar
+                {isLoading ? "Enviando..." : "Enviar"}
                 <Send size={16} />
               </button>
             </form>
           </div>
         </div>
       </div>
+
+      {/* Toast de feedback */}
+      {status && (
+        <ToastNotification status={status} onClose={() => setStatus(null)} />
+      )}
     </section>
   );
 };
