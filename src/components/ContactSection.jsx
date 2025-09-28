@@ -196,7 +196,6 @@ export const ContactSection = () => {
         </div>
       </div>
 
-      {/* Toast de feedback */}
       {status && (
         <ToastNotification status={status} onClose={() => setStatus(null)} />
       )}
