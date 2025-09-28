@@ -11,7 +11,16 @@ console.log("Variáveis de ambiente lidas:",{
     EMAIL_TO: process.env.EMAIL_TO
 })
 
+const express = require('express');
+const cors = require('cors'); // Importe o pacote
 const app = express();
+
+app.use(cors({
+    
+    origin: 'https://myportfolio-ten-silk-98.vercel.app/', 
+    methods: ['POST']
+}));
+
 const PORT = 5000;
 
 // Middlewares
