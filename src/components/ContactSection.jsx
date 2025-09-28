@@ -2,10 +2,8 @@ import { Instagram, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
 import { cn } from "../lib/utils";
 
 export const ContactSection = () => {
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     const data = {
       name: e.target.name.value,
@@ -20,20 +18,18 @@ export const ContactSection = () => {
         body: JSON.stringify(data),
       });
 
+      if (!response.ok) throw new Error("Erro ao enviar mensagem.");
+
+      setStatus("Mensagem enviada com sucesso! ✅");
+      e.target.reset(); //pra limpar o form
+
       const result = await response.json();
       console.log(result);
     } catch (error) {
       console.error(error);
+      setStatus("Erro ao enviar mensagem.");
     }
-
-      /*if (!response.ok) throw new Error("Erro ao enviar mensagem");
-
-      alert("Mensagem enviada com sucesso!")
-      e.target.reset();
-     catch (err) {
-      alert("Erro: " + err.message); */
-    }
-    
+  };
 
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
@@ -121,10 +117,11 @@ export const ContactSection = () => {
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium">
-                  Nome
+                  Seu nome
                 </label>
                 <input
                   type="text"
+                  autoComplete="name"
                   id="name"
                   name="name"
                   required
@@ -134,10 +131,11 @@ export const ContactSection = () => {
               </div>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium">
-                  Email
+                  Seu email
                 </label>
                 <input
                   type="email"
+                  autoComplete="email"
                   id="email"
                   name="email"
                   required
@@ -147,7 +145,7 @@ export const ContactSection = () => {
               </div>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium">
-                  Mensagem
+                  Sua mensagem
                 </label>
                 <input
                   id="message"
@@ -160,11 +158,11 @@ export const ContactSection = () => {
               <button
                 type="submit"
                 className={cn(
-                  "cosmic-button w-full flex items-center justify-center gap-2"
+                  "cosmic-button w-full flex items-center justify-center gap-2 hover:primary/20 cursor-pointer"
                 )}
               >
                 Enviar
-                <Send size={16}/>
+                <Send size={16} />
               </button>
             </form>
           </div>

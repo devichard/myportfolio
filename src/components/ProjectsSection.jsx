@@ -14,7 +14,7 @@ const projects = [
     id: 2,
     title: "Sistema Cérebro Sebrae",
     description:
-      "Sistema interno do SEBRAE-DF no qual me orgulho em colocar nos projetos, pois foi a chave para destravar minhas boas práticas em desenvolvimento! ",
+      "Sistema interno do SEBRAE-DF em 2021/2022 no qual me orgulho em colocar nos projetos, pois foi a chave para destravar minhas boas práticas em desenvolvimento! ",
     image: "/projects/Sebrae.png",
     tags: ["PHP", "MySQL", "Suporte Software/Hardware", "Git/GitHub"],
     githubUrl: "",
@@ -22,7 +22,7 @@ const projects = [
   /*{
     id: 3,
     title: "E-commerce: ChardShop",
-    description: "Loja genérica com aplicação de Liquid e Ruby, aqui priorizei a parte de gerenciamento, "
+    description: "Loja genérica com aplicação de Liquid e Ruby, aqui priorizei a parte de gerenciamento, vendas e estratégias de marketing. "
   }*/
 ];
 
