@@ -73,7 +73,7 @@ app.post("/ContactSection", async (req, res) => {
   }
 });
 
-app.get("/", (res) => {
+app.get("/", (req, res) => {
     res.send("Servidor está ativo!");
 });
 
