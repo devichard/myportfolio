@@ -16,6 +16,7 @@ const app = express();
 const allowedOrigins = [
     'https://myportfolio-ten-silk-98.vercel.app',
     'http://localhost:3000', 
+    'http://localhost:5173',
 ];
 
 app.use(cors({
