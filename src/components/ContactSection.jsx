@@ -1,16 +1,10 @@
-import {
-  Instagram,
-  Linkedin,
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-} from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
 import { cn } from "../lib/utils";
 import { useState } from "react";
 import { ToastNotification } from "./ToastNotification";
 
 export const ContactSection = () => {
+  const BACKEND_URL = "https://myportfolio-2-bojl.onrender.com/ContactSection";
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +21,7 @@ export const ContactSection = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://myportfolio-2-bojl.onrender.com", {
+      const response = await fetch(BACKEND_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
